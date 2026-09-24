@@ -163,6 +163,8 @@ def test_internal_fragments_are_literally_correct() -> None:
     a stray emoji or the wrong case passes the gate and still fails in a browser.
     """
     offenders = []
+    # 682 links point at only 64 files; parse each target once, not per link.
+    anchors_by_target: dict[Path, set[str]] = {}
     for p in _md_files():
         text = ca.strip_code_blocks(p.read_text(encoding="utf-8"))
         for lineno, line in enumerate(text.split("\n"), 1):
@@ -173,7 +175,12 @@ def test_internal_fragments_are_literally_correct() -> None:
                 tp = p if target == "" else (p.parent / target)
                 if not tp.exists() or tp.suffix != ".md":
                     continue  # missing-file case is check-anchors.py's job
-                heads = ca.collect_anchors(tp.read_text(encoding="utf-8"))
+                key = tp.resolve()
+                heads = anchors_by_target.get(key)
+                if heads is None:
+                    heads = anchors_by_target[key] = ca.collect_anchors(
+                        tp.read_text(encoding="utf-8")
+                    )
                 if anchor in heads:
                     continue
                 canon = ca.slugify(anchor)
