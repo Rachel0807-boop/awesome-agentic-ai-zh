@@ -16,7 +16,7 @@ When the user mentions tool calling problems, ask **which of these 4 symptoms** 
 3. **(c) ReAct loop 跑不停 / 漏步** — 多步 loop 无限循环，或者中间漏一个 tool 没调用
 4. **(d) 我从零开始、还没写 schema** — 用户要新做一个 tool、想知道 schema 怎么设计
 
-**不要猜**——让用户明确选一个。每个 branch 走的 reference 不同。
+用户的描述已经对应到其中一个 symptom 时（例如直接说「LLM 不调用我的 tool」），直接进该 branch、不必再问；描述模糊时才请他选一个——每个 branch 走的 reference 不同。
 
 ## Step 2 — Branch by symptom
 
@@ -94,7 +94,6 @@ When the user mentions tool calling problems, ask **which of these 4 symptoms** 
 ## Don't
 
 - **不要直接帮用户写一整份 starter.py**——他们需要练 mental model、不是拿到答案 copy-paste。指他们 fork [`../../stage-3/`](../../../stage-3/) 的 starter、改 TOOLS_SPEC 就好。
-- **不要跳过 Step 1 triage**——4 个 symptom 的修法不同，没问清楚就猜会浪费时间。
 - **不要假设 user 用 Claude**——Path A 默认是 Ollama qwen2.5:3b，先问再答。
 - **不要把 schema-design 规则背一遍**——`resources/schema-design-cheatsheet.zh-Hans.md` 已经写好，指过去就行。
 

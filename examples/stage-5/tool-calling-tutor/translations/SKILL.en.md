@@ -16,7 +16,7 @@ When the user mentions a tool-calling problem, ask **which of these 4 symptoms**
 3. **(c) ReAct loop won't stop / skips a step** — multi-step loop runs forever, or it skips a tool call in the middle
 4. **(d) I'm starting from scratch, haven't written the schema** — user wants to build a new tool and design the schema
 
-**Don't guess** — make them pick one explicitly. Each branch leads to a different reference.
+If the user's description already matches one symptom (e.g. they say "the LLM won't call my tool"), go straight to that branch without asking; ask them to pick only when it's ambiguous — each branch leads to a different reference.
 
 ## Step 2 — Branch by symptom
 
@@ -94,7 +94,6 @@ If the user asks about any of these, tell them "this skill handles tool-use mech
 ## Don't
 
 - **Don't just write a complete `starter.py` for them** — they need to build the mental model, not copy-paste an answer. Point them to fork [`../../stage-3/`](../../../stage-3/) starters and swap in their `TOOLS_SPEC`.
-- **Don't skip Step 1 triage** — the 4 symptoms have different fixes; guessing wastes time.
 - **Don't assume the user is using Claude** — Path A default is Ollama qwen2.5:3b. Ask, then answer.
 - **Don't recite all the schema-design rules** — `resources/schema-design-cheatsheet.en.md` already has them; just point.
 
